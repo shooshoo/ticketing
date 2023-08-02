@@ -1,0 +1,34 @@
+apiVersion: skaffold/v2beta4
+kind: Config
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - image: us.gcr.io/ticketing-dev-392101/auth
+      context: auth
+      sync:
+        infer:
+          - "src/**/*.ts"
+        # manual:
+        #   - src: "src/**/*.ts"
+        #     dest: .
+
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+profiles:
+  - name: cloudbuild
+    build:
+      googleCloudBuild: { projectId: us.gcr.io/ticketing-dev-392101/auth }
+      artifacts:
+        - image: us.gcr.io/ticketing-dev-392101/auth
+          context: auth
+          docker:
+            dockerfile: Dockerfile
+          sync:
+            infer:
+              - "src/**/*.ts"
+            # manual:
+            #   - src: "src/**/*.ts"
+            #     dest: .
