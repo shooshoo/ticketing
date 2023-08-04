@@ -7,7 +7,8 @@ export default ({ req }) => {
 
     return axios.create({
       baseURL:
-        "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local",
+        // this is for dev envirenment "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local",
+        "http://ticketing-app-for-my-testing.online",
       // by passing header we will pass required fields like host and cookie
       headers: req.headers,
     });
